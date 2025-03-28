@@ -1,8 +1,15 @@
-import { Body, Controller, Get, Post, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Get, Post, Patch, Param, Delete, UseGuards, Query } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { CreateProductDto, UpdateProductDto } from './dtos';
+import { CreateProductDto, FindAllProductPaginationParamDto, UpdateProductDto } from './dtos';
+import { AuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { IProduct } from './interfaces';
+import { PaginationParams } from 'src/common/interfaces/entities/pagination-params.interface';
 
 @Controller('products')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 export class ProductsController {
     constructor(private readonly productsService: ProductsService) {}
 
@@ -12,8 +19,8 @@ export class ProductsController {
     }
 
     @Get()
-    findAll() {
-        return this.productsService.findAll();
+    async findAll(@Query() params: FindAllProductPaginationParamDto) : Promise<PaginationDto<IProduct>> {
+        return await this.productsService.findAll(params);
     }
 
     @Get(':id')

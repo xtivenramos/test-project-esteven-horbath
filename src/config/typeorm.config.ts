@@ -3,6 +3,7 @@ import * as path from 'path';
 
 import * as dotenv from 'dotenv';
 import { ProductEntity } from 'src/api/products/entities';
+import { UserEntity } from 'src/api/users/entities';
 dotenv.config();
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
@@ -12,6 +13,6 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [ProductEntity],
+  entities: [ProductEntity, UserEntity],
   synchronize: true,
 }

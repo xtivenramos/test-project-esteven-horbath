@@ -9,7 +9,7 @@ dotenv.config();
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
-    const config = new DocumentBuilder().setTitle('Products API').setDescription('API para gestionar productos').setVersion('1.0').build();
+    const config = new DocumentBuilder().setTitle('Products API').setDescription('API para gestionar productos').setVersion('1.0').addBearerAuth().build();
 
     app.useGlobalPipes(
         new ValidationPipe({
